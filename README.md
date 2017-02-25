@@ -5,6 +5,8 @@ This will be updated, and you can do pull requests(I will evaluate them before a
 
 My website: http://towerga.ml/
 
+-----------
+
 Copyright (C) 2017 [Towergame]
 
 This program is free software: you can redistribute it and/or modify
