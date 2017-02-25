@@ -27,3 +27,12 @@
 *.exe
 *.out
 *.app
+CountrySim/.vs/CountrySim/v14/.suo
+*.log
+CountrySim/CountrySim/Debug/CountrySim.tlog/CL.command.1.tlog
+*.tlog
+CountrySim/CountrySim/Debug/source.obj.enc
+*.idb
+CountrySim/CountrySim/Debug/vc140.pdb
+*.ilk
+CountrySim/Debug/CountrySim.pdb
