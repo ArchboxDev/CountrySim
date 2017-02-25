@@ -14,9 +14,11 @@ public:
 	std::string passededicts[1];
 	Country();
 	int GetStats(int x);
+	std::string GetLeader();
+	void UpdatePop();
 	void Revolution();
 	void RerollIdeology();
-	void RerollSuffix();
+	void RerollPrefix();
 	void Election();
 	void PassEdict();
 	~Country();
