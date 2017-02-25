@@ -7,7 +7,7 @@ My website: http://towerga.ml/
 
 -----------
 
-Copyright (C) 2017 [Towergame]
+Copyright (C) 2017 Towergame
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as
