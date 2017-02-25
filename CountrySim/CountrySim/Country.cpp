@@ -11,14 +11,14 @@ Country::Country()
 {	
 	srand( time(NULL) );
 	stability = 100;
-	std::string edicts[10] = { "Save Nature", "Industrialization", "Curfews", "Country-wide firewall", "Invasion of Privacy act", "Equal wages", "Support of local buisnesses", "Probation for every crime", "Allow death sentences", "Independence of foreign politics act" };
-	std::string passededicts[1] = { "Ermengency services" };
+	std::string edicts[14] = { "Save Nature", "Industrialization", "Curfews", "Country-wide firewall", "Invasion of Privacy act", "Equal wages", "Support of local buisnesses", "Probation for every crime", "Allow death sentences", "Independence of foreign politics act", "Schools teach all subjects", "Travel ban", "Obligatory military service", "Religious oath of devotion" };
+	std::string passededicts[1] = { "Emergency services" };
 	int RandIndex = rand() % 10;
 	int RandIndex2 = rand() % 10;
-	std::string names[10] = { "Bill", "Bob", "Adolf", "Joseph", "Andrej", "Ivan", "Hans", "Nicolas", "Jacques", "David" };
-	std::string snames[10] = { "Dickson", "Treehanger", "Hitler", "Stalin", "Sokolov", "Ivanovich", "Heinemann", "Bernard", "Thomas", "Cameron" };
+	std::string names[18] = { "Bill", "Bob", "Adolf", "Joseph", "Andrej", "Ivan", "Hans", "Nicolas", "Jacques", "David", "Barry", "Boris", "Julius", "Augustus", "Basil", "Stephen", "Huis", "Hugues" };
+	std::string snames[15] = { "Dickson", "Treehanger", "Hitler", "Stalin", "Sokolov", "Ivanovich", "Heinemann", "Bernard", "Thomas", "Cameron", "Calvin", "Capet", "Hugo", "Farel", "Lefevre" };
 	leader = names[RandIndex] + " " + snames[RandIndex2];
-	std::string  namespre[11] = { "Russian", "German", "French", "Polish", "British", "Latvian", "Soviet", "Rebel", "Nazi", "American", "Canadian" };
+	std::string  namespre[17] = { "Russian", "German", "French", "Polish", "British", "Latvian", "Lithuanian", "Spanish", "Chinese", "Swedish", "Ukrainian", "Nigerian", "Soviet", "Rebel", "Nazi", "American", "Canadian" };
 	RandIndex = rand() % 11;
 	prefix = namespre[RandIndex];
 	teritory = rand() % 1000000000;
