@@ -36,3 +36,5 @@ CountrySim/CountrySim/Debug/source.obj.enc
 CountrySim/CountrySim/Debug/vc140.pdb
 *.ilk
 CountrySim/Debug/CountrySim.pdb
+*.db
+CountrySim/CountrySim.VC.db
