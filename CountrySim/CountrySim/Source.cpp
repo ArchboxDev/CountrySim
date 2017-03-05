@@ -69,20 +69,77 @@ int main() {
 		}
 		//DO NOT UNCOMMENT THIS IF YOU CANT FIX THIS! IT WILL JUST CAUSE AN EXCEPTION!
 		int edictpasser = rand() % 4;
-		int passorcancel = rand() % 2;
-		switch (edictpasser) {
-		case 1:
-			a.PassEdict();
-			break;
-		case 2:
-			b.PassEdict();
-			break;
-		case 3:
-			c.PassEdict();
-			break;
-		case 4:
-			d.PassEdict();
-			break;
+		int pass = rand() % 2;
+		if (edictpasser == 1) {
+			if (a.edicts.size() > 1) {
+				if (a.passededicts.size() > 1) {
+					if (pass == 1) {
+						a.PassEdict();
+					}
+					else {
+						a.CancelEdict();
+					}
+				}
+				else {
+					a.PassEdict();
+				}
+			}
+			else {
+				a.CancelEdict();
+			}
+		}
+		else if (edictpasser == 2) {
+			if (b.edicts.size() > 1) {
+				if (b.passededicts.size() > 1) {
+					if (pass == 1) {
+						b.PassEdict();
+					}
+					else {
+						b.CancelEdict();
+					}
+				}
+				else {
+					b.PassEdict();
+				}
+			}
+			else {
+				b.CancelEdict();
+			}
+		}
+		else if (edictpasser == 3) {
+			if (c.edicts.size() > 1) {
+				if (c.passededicts.size() > 1) {
+					if (pass == 1) {
+						c.PassEdict();
+					}
+					else {
+						c.CancelEdict();
+					}
+				}
+				else {
+					c.PassEdict();
+				}
+			}
+			else {
+				c.CancelEdict();
+			}
+		} else if (edictpasser == 4) {
+			if (d.edicts.size() > 1) {
+				if (d.passededicts.size() > 1) {
+					if (pass == 1) {
+						d.PassEdict();
+					}
+					else {
+						d.CancelEdict();
+					}
+				}
+				else {
+					d.PassEdict();
+				}
+			}
+			else {
+				d.CancelEdict();
+			}
 		}
 		year = year++;
 		std::cout << a.name << " is currently lead by " << a.GetLeader() << " with the stability of " << staba << "! \nSize: " << a.GetStats(1) << ". Current population: " << a.GetStats(2) << std::endl << std::endl;

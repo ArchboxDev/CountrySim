@@ -175,9 +175,6 @@ void Country::Election()
 void Country::PassEdict()
 {
 	//Pass edict. Will pass edict on call
-	if (edicts.size() > 0) {
-		int passorcancel = rand() % 2;
-		if (passorcancel = 1) {
 			srand(time(NULL));
 			int stabilityaffected = rand() % 2;
 			switch (stabilityaffected) {
@@ -188,19 +185,11 @@ void Country::PassEdict()
 				stability = stability + rand() % 10;
 				break;
 			}
-			int edict = rand() % sizeof(edicts);
-			std::string tmp = edicts[edict-1];
-			edicts.erase(edicts.begin() + edict - 1);
+			int edict = rand() % (edicts.size()-1);
+			std::string tmp = edicts[edict];
+			edicts.erase (edicts.begin() + edict);
 			passededicts.push_back(tmp);
 			std::cout << name << " has passed edict: " << tmp << std::endl << std::endl;
-		}
-		else {
-			CancelEdict();
-		}
-	}
-	else {
-		CancelEdict();
-	}
 }
 
 void Country::CancelEdict()
@@ -216,9 +205,9 @@ void Country::CancelEdict()
 		stability = stability + rand() % 10;
 		break;
 	}
-	int edict = rand() % sizeof(passededicts);
-	std::string tmp = passededicts[edict-1];
-	passededicts.erase(passededicts.begin() + edict - 1);
+	int edict = rand() % (passededicts.size()-1);
+	std::string tmp = passededicts[edict];
+	passededicts.erase(passededicts.begin() + edict);
 	edicts.push_back(tmp);
 	std::cout << name << " has canceled edict: " << tmp << std::endl << std::endl;
 }
