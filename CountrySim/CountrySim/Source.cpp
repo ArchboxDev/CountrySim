@@ -35,7 +35,6 @@ int main() {
 				}
 			}
 		}
-		//DO NOT UNCOMMENT THIS IF YOU CANT FIX THIS! IT WILL JUST CAUSE AN EXCEPTION!
 		int edictpasser = rand() % countries.size();
 		int pass = rand() % 2;
 		if (countries[edictpasser].edicts.size() > 1) {
