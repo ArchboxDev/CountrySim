@@ -112,9 +112,11 @@
   <ItemGroup>
     <ClCompile Include="Country.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="War.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Country.h" />
+    <ClInclude Include="War.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
