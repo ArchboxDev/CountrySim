@@ -68,7 +68,8 @@ int main() {
 			Sleep(sleepl);
 		}
 		//DO NOT UNCOMMENT THIS IF YOU CANT FIX THIS! IT WILL JUST CAUSE AN EXCEPTION!
-		/*int edictpasser = rand() % 4;
+		int edictpasser = rand() % 4;
+		int passorcancel = rand() % 2;
 		switch (edictpasser) {
 		case 1:
 			a.PassEdict();
@@ -82,7 +83,7 @@ int main() {
 		case 4:
 			d.PassEdict();
 			break;
-		}*/
+		}
 		year = year++;
 		std::cout << a.name << " is currently lead by " << a.GetLeader() << " with the stability of " << staba << "! \nSize: " << a.GetStats(1) << ". Current population: " << a.GetStats(2) << std::endl << std::endl;
 		std::cout << b.name << " is currently lead by " << b.GetLeader() << " with the stability of " << stabb << "! \nSize: " << b.GetStats(1) << ". Current population: " << b.GetStats(2) << std::endl << std::endl;

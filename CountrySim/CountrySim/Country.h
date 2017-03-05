@@ -1,17 +1,19 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <vector>
 
 
 class Country
 {
 public:
+	bool elections;
 	std::string ideologyc[4];
 	std::string name;
 	std::string prefix;
 	std::string suffix;
-	std::string edicts[10];
-	std::string passededicts[1];
+	std::vector<std::string> edicts;
+	std::vector<std::string> passededicts;
 	Country();
 	int GetStats(int x);
 	std::string GetLeader();
@@ -21,6 +23,7 @@ public:
 	void RerollPrefix();
 	void Election();
 	void PassEdict();
+	void CancelEdict();
 	~Country();
 private:
 	bool fed;

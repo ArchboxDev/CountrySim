@@ -5,18 +5,28 @@
 
 
 
-
+std::string arraye[16] = { "Save Nature","Industrialization","Curfews","Country-wide firewall","Invasion of Privacy act","Equal wages","Support of local buisnesses","Probation for every crime","Allow death sentences","Independence of foreign politics act","Schools teach all subjects","Travel ban","Obligatory military service","Religious oath of devotion" };
 
 Country::Country()
 {	
 	// The Country Constructor. Defines everything thats needed
 	srand( time(NULL) ); //Sets the Random seed to current time(in seconds from Jan 1, 1970
+	int RandIndex = rand() % 2;
+	switch (RandIndex) {
+	case 1:
+		elections = true;
+		break;
+	case 2:
+		elections = false;
+		break;
+	}
+	//Above defines if nation has elections or no
 	population = rand() % 1000000000 + 1000; //Sets population between 1 Billion and 1 Thousand
 	stability = 100; //Sets the stability
-	std::string edicts[14] = { "Save Nature", "Industrialization", "Curfews", "Country-wide firewall", "Invasion of Privacy act", "Equal wages", "Support of local buisnesses", "Probation for every crime", "Allow death sentences", "Independence of foreign politics act", "Schools teach all subjects", "Travel ban", "Obligatory military service", "Religious oath of devotion" };
-	//These 2 string arrays (edicts and edictspassed) define the edicts system which currently doesn't work
-	std::string passededicts[1] = { "Emergency services" };
-	int RandIndex = rand() % 18; //Gets a random number
+	edicts.insert (edicts.end(), arraye, arraye+16 );
+	//These 2 string vectors (edicts and edictspassed) define the edicts system which currently doesn't work
+	passededicts.push_back ( "Emergency services" );
+	 RandIndex = rand() % 18; //Gets a random number
 	int RandIndex2 = rand() % 15; //Gets a random number
 	std::string names[18] = { "Bill", "Bob", "Adolf", "Joseph", "Andrej", "Ivan", "Hans", "Nicolas", "Jacques", "David", "Barry", "Boris", "Julius", "Augustus", "Basil", "Stephen", "Huis", "Hugues" };
 	//These 2 arrays (names and snames) define the avaivable leader name and surename combinations. Change the RandIndex and RandIndex2 above them if you add or remove items
@@ -26,7 +36,7 @@ Country::Country()
 	std::string  namespre[18] = { "Russian", "German", "French", "Polish", "British", "Latvian", "Lithuanian", "Spanish", "Chinese", "Swedish", "Ukrainian", "Nigerian", "Soviet", "Rebel", "Nazi", "American", "Canadian", "Estonian" };
 	RandIndex = rand() % 18; //Gets a random number
 	prefix = namespre[RandIndex]; //Defines a random prefix
-	teritory = rand() % 1000000000 + population; //Generates the teritory of the country between 1 billion and the population amount(1 km^2 on 1 citizen)
+	teritory = rand() % 1000000000 + population/10; //Generates the teritory of the country between 1 billion and the population amount(10 km^2 on 1 citizen)
 	std::string ideologyc[4] = { "Communist", "Democratic", "Monarchic", "Facist" }; //Avaivable ideologies, you can add more just remember to change RandIndex below
 	RandIndex = rand() % 4; //Gets a random number
 	ideology = ideologyc[RandIndex]; //Gets the ideology chosen
@@ -46,7 +56,7 @@ Country::Country()
 		suffix = " Republic";
 	}
 	name = prefix + suffix; //Create the name
-	std::cout << "A new country with the name " << name << " has been created under the \nleadership of " << leader << "'s " << ideology << " regime!" << std::endl << std::endl; //Message
+	std::cout << "A new country with the name " << name << " has been created under the \nleadership of " << leader << "'s " << ideology << " regime!" << "\nHas elections: " << elections << std::endl << std::endl; //Message
 }
 
 int Country::GetStats(int x)
@@ -85,15 +95,24 @@ void Country::Revolution()
 	//Revolution event. Fired when stability is less than 50 (Check source.cpp to change the threshold)
 	//Most of this is code equal to the contructor
 	stability = 100;
+	int RandIndex = rand() % 2;
+	switch (RandIndex) {
+	case 1:
+		elections = true;
+		break;
+	case 2:
+		elections = false;
+		break;
+	}
 	std::string temp = leader;
 	srand( time(NULL) );
-	int RandIndex = rand() % 10;
+	RandIndex = rand() % 10;
 	int RandIndex2 = rand() % 10;
 	std::string names[10] = { "Bill", "Bob", "Adolf", "Joseph", "Andrej", "Ivan", "Hans", "Nicolas", "Jacques", "David" };
 	std::string snames[10] = { "Dickson", "Treehanger", "Hitler", "Stalin", "Sokolov", "Ivanovich", "Heinemann", "Bernard", "Thomas", "Cameron" };
 	leader = names[RandIndex] + " " + snames[RandIndex2];
 	RerollIdeology();
-	std::cout << "A revolution has happened! Leader " << temp << " is replaced by \n" << leader << "'s " << ideology << " regime!!" << std::endl << std::endl;
+	std::cout << "A revolution has happened! Leader " << temp << " is replaced by \n" << leader << "'s " << ideology << " regime!!" << " Has elections: " << elections << std::endl << std::endl;
 }
 
 void Country::RerollIdeology()
@@ -135,22 +154,58 @@ void Country::RerollPrefix()
 
 void Country::Election()
 {
-	//Election event. It's like the revolution one but doesn't change ideology
-	srand(time(NULL));
-	stability = stability-rand() % 100;
-	std::string temp = leader;
-	srand( time(NULL) );
-	int RandIndex = rand() % 10;
-	int RandIndex2 = rand() % 10;
-	std::string names[10] = { "Bill", "Bob", "Adolf", "Joseph", "Andrej", "Ivan", "Hans", "Nicolas", "Jacques", "David" };
-	std::string snames[10] = { "Dickson", "Treehanger", "Hitler", "Stalin", "Sokolov", "Ivanovich", "Heinemann", "Bernard", "Thomas", "Cameron" };
-	leader = names[RandIndex] + " " + snames[RandIndex2];
-	std::cout << "An election has happened! Leader " << temp << " is replaced by \n"<< leader << "!" << std::endl << std::endl;
+	if (elections == true) {
+		//Election event. It's like the revolution one but doesn't change ideology
+		srand(time(NULL));
+		stability = stability - rand() % 100;
+		std::string temp = leader;
+		srand(time(NULL));
+		int RandIndex = rand() % 10;
+		int RandIndex2 = rand() % 10;
+		std::string names[10] = { "Bill", "Bob", "Adolf", "Joseph", "Andrej", "Ivan", "Hans", "Nicolas", "Jacques", "David" };
+		std::string snames[10] = { "Dickson", "Treehanger", "Hitler", "Stalin", "Sokolov", "Ivanovich", "Heinemann", "Bernard", "Thomas", "Cameron" };
+		leader = names[RandIndex] + " " + snames[RandIndex2];
+		std::cout << "An election has happened! Leader " << temp << " is replaced by \n" << leader << "!" << std::endl << std::endl;
+	}
+	else {
+		stability = stability - 1;
+	}
 }
 
 void Country::PassEdict()
 {
-	//Pass edict. It is broken and cause an exception on call
+	//Pass edict. Will pass edict on call
+	if (edicts.size() > 0) {
+		int passorcancel = rand() % 2;
+		if (passorcancel = 1) {
+			srand(time(NULL));
+			int stabilityaffected = rand() % 2;
+			switch (stabilityaffected) {
+			case 1:
+				stability = stability - rand() % 10;
+				break;
+			case 2:
+				stability = stability + rand() % 10;
+				break;
+			}
+			int edict = rand() % sizeof(edicts);
+			std::string tmp = edicts[edict-1];
+			edicts.erase(edicts.begin() + edict - 1);
+			passededicts.push_back(tmp);
+			std::cout << name << " has passed edict: " << tmp << std::endl << std::endl;
+		}
+		else {
+			CancelEdict();
+		}
+	}
+	else {
+		CancelEdict();
+	}
+}
+
+void Country::CancelEdict()
+{
+	//Cancels an edict
 	srand(time(NULL));
 	int stabilityaffected = rand() % 2;
 	switch (stabilityaffected) {
@@ -161,16 +216,11 @@ void Country::PassEdict()
 		stability = stability + rand() % 10;
 		break;
 	}
-	int edict = rand() % sizeof(edicts);
-	std::string tmp = edicts[edict];
-	edicts[edict] = "";
-	/*for (int i = edict; i < sizeof(edicts); i++) {
-		edicts[edict] = edicts[edict + 1];
-		edicts[i - 1] = "";
-	}*/
-	passededicts[sizeof(passededicts)-1] = tmp;
-	std::cout << name << " has passed edict: " << tmp << std::endl << std::endl;
-	 //WARNING: This part is broken and will throw an exception!
+	int edict = rand() % sizeof(passededicts);
+	std::string tmp = passededicts[edict-1];
+	passededicts.erase(passededicts.begin() + edict - 1);
+	edicts.push_back(tmp);
+	std::cout << name << " has canceled edict: " << tmp << std::endl << std::endl;
 }
 
 
