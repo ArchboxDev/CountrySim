@@ -38,3 +38,5 @@ CountrySim/CountrySim/Debug/vc140.pdb
 CountrySim/Debug/CountrySim.pdb
 *.db
 CountrySim/CountrySim.VC.db
+*.db
+CountrySim/CountrySim.VC.VC.opendb
