@@ -1,11 +1,13 @@
 #include "Country.h"
 #include <stdlib.h>
 #include <time.h>
-
-
-
-
-std::string arraye[16] = { "Save Nature","Industrialization","Curfews","Country-wide firewall","Invasion of Privacy act","Equal wages","Support of local buisnesses","Probation for every crime","Allow death sentences","Independence of foreign politics act","Schools teach all subjects","Travel ban","Obligatory military service","Religious oath of devotion" };
+#include <Windows.h>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <iostream>
+std::string claws[5] = { "None", "Volunteer only", "Limited Conscription", "Full Conscription", "Every adult serves" };
+std::string arraye[15] = { "Save Nature","Industrialization","Curfews","Country-wide firewall","Invasion of Privacy act","Equal wages","Support of local buisnesses","Probation for every crime","Allow death sentences","Independence of foreign politics act","Schools teach all subjects","Travel ban","Religious oath of devotion" };
 
 Country::Country()
 {	
@@ -21,9 +23,12 @@ Country::Country()
 		break;
 	}
 	//Above defines if nation has elections or no
+	conscriptionlaws.insert (conscriptionlaws.end(), claws, claws+5); //avaivable conscription laws
+	RandIndex = rand() % size(conscriptionlaws);
+	conscriptionlaw = conscriptionlaws[RandIndex]; //Chooses conscription law
 	population = rand() % 1000000000 + 1000; //Sets population between 1 Billion and 1 Thousand
 	stability = 100; //Sets the stability
-	edicts.insert (edicts.end(), arraye, arraye+16 );
+	edicts.insert (edicts.end(), arraye, arraye+15 );
 	//These 2 string vectors (edicts and edictspassed) define the edicts system which currently doesn't work
 	passededicts.push_back ( "Emergency services" );
 	 RandIndex = rand() % 18; //Gets a random number
@@ -33,7 +38,7 @@ Country::Country()
 	std::string snames[15] = { "Dickson", "Treehanger", "Hitler", "Stalin", "Sokolov", "Ivanovich", "Heinemann", "Bernard", "Thomas", "Cameron", "Calvin", "Capet", "Hugo", "Farel", "Lefevre" };
 	leader = names[RandIndex] + " " + snames[RandIndex2]; //Defines the leader name
 	//namespre defines the avaivable country prefixes (i.e. French Republic where French is the prefix)
-	std::string  namespre[18] = { "Russian", "German", "French", "Polish", "British", "Latvian", "Lithuanian", "Spanish", "Chinese", "Swedish", "Ukrainian", "Nigerian", "Soviet", "Rebel", "Nazi", "American", "Canadian", "Estonian" };
+	std::string  namespre[18] = { "Russian", "German", "French", "Polish", "British", "Latvian", "Lithuanian", "Spanish", "Chinese", "Swedish", "Ukrainian", "Nigerian", "Soviet", "Cuban", "Somalian", "American", "Canadian", "Estonian" };
 	RandIndex = rand() % 18; //Gets a random number
 	prefix = namespre[RandIndex]; //Defines a random prefix
 	teritory = rand() % 1000000000 + population/10; //Generates the teritory of the country between 1 billion and the population amount(10 km^2 on 1 citizen)
@@ -56,7 +61,23 @@ Country::Country()
 		suffix = " Republic";
 	}
 	name = prefix + suffix; //Create the name
+	SetMilitaryStats();
 	std::cout << "A new country with the name " << name << " has been created under the \nleadership of " << leader << "'s " << ideology << " regime!" << "\nHas elections: " << elections << std::endl << std::endl; //Message
+	Sleep(666);
+}
+
+void Country::InitOpnion(std::vector<Country> list)
+{
+	float opinion = 0;
+	for (int p = 0; p < list.size(); p++) {
+		if (ideology == list[p].ideology) {
+			opinion = 10;
+		}
+		else {
+			opinion = -10;
+		}
+		thoughtsof.push_back(opinion);
+	}
 }
 
 int Country::GetStats(int x)
@@ -88,31 +109,19 @@ void Country::UpdatePop()
 		stability = stability + rand() % 10000 + 100;
 		break;
 	}
+	SetMilitaryStats();
 }
 
-void Country::Revolution()
+void Country::Revolution(std::vector<Country> countrylist)
 {
 	//Revolution event. Fired when stability is less than 50 (Check source.cpp to change the threshold)
 	//Most of this is code equal to the contructor
-	stability = 100;
-	int RandIndex = rand() % 2;
-	switch (RandIndex) {
-	case 1:
-		elections = true;
-		break;
-	case 2:
-		elections = false;
-		break;
-	}
-	std::string temp = leader;
-	srand( time(NULL) );
-	RandIndex = rand() % 10;
-	int RandIndex2 = rand() % 10;
-	std::string names[10] = { "Bill", "Bob", "Adolf", "Joseph", "Andrej", "Ivan", "Hans", "Nicolas", "Jacques", "David" };
-	std::string snames[10] = { "Dickson", "Treehanger", "Hitler", "Stalin", "Sokolov", "Ivanovich", "Heinemann", "Bernard", "Thomas", "Cameron" };
-	leader = names[RandIndex] + " " + snames[RandIndex2];
-	RerollIdeology();
-	std::cout << "A revolution has happened! Leader " << temp << " is replaced by \n" << leader << "'s " << ideology << " regime!!" << " Has elections: " << elections << std::endl << std::endl;
+	//THIS IS NOW POINTLESS AS IT IS ABOUT TO BE REVAMPED!
+	//In an another update
+	//CivilWarCountry rebel1;
+	//CivilWarCountry rebel2;
+	//CivilWar CivilWar(rebel1, rebel2);
+	//std::cout << "A revolution has happened! Leader " << temp << " is replaced by \n" << leader << "'s " << ideology << " regime!!" << " Has elections: " << elections << std::endl << std::endl;
 }
 
 void Country::RerollIdeology()
@@ -212,10 +221,120 @@ void Country::CancelEdict()
 	std::cout << name << " has canceled edict: " << tmp << std::endl << std::endl;
 }
 
+void Country::ImproveThoughts(int index, float amount)
+{
+	thoughtsof[index] = thoughtsof[index] + amount;
+}
 
+void Country::SetThoughts(int index, float amount)
+{
+	thoughtsof[index] = amount;
+}
+
+void Country::ResetThoughts(int index, std::vector<Country> list) {
+	float opinion = 0;
+	if (ideology == list[index].ideology) {
+		opinion = 10;
+	}
+	else {
+		opinion = -10;
+	}
+	thoughtsof[index] = opinion;
+}
+
+void Country::SetMilitaryStats()
+{
+	if (conscriptionlaw == "None") {
+		manpower = population / 100 * 1;
+	}
+	else if (conscriptionlaw == "Volunteer only") {
+		manpower = population / 100 * 2;
+	}
+	else if (conscriptionlaw == "Limited Conscription") {
+		manpower = population / 100 * 5;
+	}
+	else if (conscriptionlaw == "Full Conscription") {
+		manpower = population / 100 * 10;
+	}
+	else if (conscriptionlaw == "Every adult serves") {
+		manpower = population / 100 * 50;
+	}
+	workers = population - manpower;
+	MakeEquip();
+
+}
+
+void Country::SetMightness()
+{
+	infantry = manpower / 3;
+	pilots = manpower / 3;
+	sailors = manpower / 3;
+	if (infantry > infantryequip + (4 * tanks)) {
+		armysize = armysize + infantryequip + tanks;
+		infantry = infantry - (infantryequip + (4 * tanks));
+		infantryequip = infantryequip - infantryequip;
+		tanks = tanks - tanks;
+	}
+	else {
+		armysize = armysize + infantry;
+		infantryequip = infantryequip - infantry;
+		tanks = tanks - infantry;
+		infantry = infantry - infantry;
+	}
+	if (pilots > planes) {
+		airmight = airmight + planes;
+		pilots = pilots - planes;
+		planes = planes - planes;
+	}
+	else {
+		airmight = airmight + pilots;
+		planes = planes - pilots;
+		pilots = pilots - pilots;
+	}
+	if (sailors > ships) {
+		seamight = seamight + ships;
+		sailors = sailors - ships;
+		ships = 0;
+	}
+	else {
+		seamight = seamight + sailors;
+		ships = ships - sailors;
+		sailors = 0;
+	}
+}
+
+void Country::MakeEquip()
+{
+	infantryequip = infantryequip + (1000000000000 / population * workers);
+	tanks = tanks + (1000000000000 / population * workers);
+	planes = planes + (1000000000000 / population * workers);
+	ships = ships + (1000000000000 / population * workers);
+	SetMightness();
+}
+
+void Country::ChangeConscriptionLaw(bool losing)
+{
+	std::vector<std::string>::iterator currentlaw = std::find(conscriptionlaws.begin(), conscriptionlaws.end(), conscriptionlaw);
+	if (losing == true) {
+		conscriptionlaw = *(currentlaw + 1);
+	}
+	else {
+		conscriptionlaw = *(currentlaw - 1);
+	}
+	SetMilitaryStats();
+}
+
+std::string Country::GetConscriptionLaw()
+{
+	return conscriptionlaw;
+}
+
+bool operator== (const Country &c1, const Country &c2) {
+	return c1.prefix == c2.prefix && c1.suffix == c2.suffix;
+}
 
 Country::~Country()
 {
 	//Country destructor
-	std::cout << name << " has fallen!" << std::endl << std::endl;
+	//tbh this really is pointless
 }
