@@ -12,6 +12,7 @@ public:
 	std::string name;
 	std::string prefix;
 	std::string suffix;
+	int teritory;
 	std::vector<float> thoughtsof;
 	std::vector<std::string> edicts;
 	std::vector<std::string> passededicts;
@@ -47,7 +48,6 @@ private:
 	std::string conscriptionlaw;
 	int population;
 	int stability;
-	int teritory;
 	float manpower;
 	float workers;
 	int infantry;

@@ -14,6 +14,7 @@ public:
 	std::vector<Country> Agressors;
 	std::vector<Country> Defenders;
 	void AdvanceWar();
+	bool warend;
 	~War();
 private:
 	float totalmight;

@@ -84,30 +84,69 @@ void War::CallToArms(Country called, bool deforatk)
 
 void War::AdvanceWar()
 {
-	int totalmight = AggressorMilitaryMight + DefenderMilitaryMight;
-	float AChance = AggressorMilitaryMight / totalmight;
-	float DChance = DefenderMilitaryMight / totalmight;
-	float randindex = rand() % totalmight;
-	if (randindex > AChance && AChance < DChance) {
-		DVic = DVic + 1;
-		return;
+	if (!(DVic > 10 || AVic > 10)) {
+		int totalmight = AggressorMilitaryMight + DefenderMilitaryMight;
+		float AChance = AggressorMilitaryMight / totalmight;
+		float DChance = DefenderMilitaryMight / totalmight;
+		float randindex = rand() % totalmight;
+		if (randindex > AChance && AChance < DChance) {
+			DVic = DVic + 1;
+			return;
+		}
+		else {
+			AVic = AVic + 1;
+			return;
+		}
+		if (randindex > DChance && DChance < AChance) {
+			AVic = AVic + 1;
+			return;
+		}
+		else {
+			DVic = DVic + 1;
+			return;
+		}
 	}
 	else {
-		AVic = AVic + 1;
+		warend = true;
 		return;
 	}
-	if (randindex > DChance && DChance < AChance) {
-		AVic = AVic + 1;
-		return;
-	}
-	else {
-		DVic = DVic + 1;
-		return;
-	}
-
 }
 
 
 War::~War()
 {
+	if (DVic > AVic) {
+		int pceffects = DVic - AVic;
+		for (int i = 0; i < Agressors.size(); i++) {
+			//Ok so basically it will be, Attackers teritory scaled to Defenders victory overhead, divided between victors
+			int tmp = Defenders.size();
+			float avaivablet = Agressors[i].teritory / (100 * (pceffects / tmp));
+			for (int b = 0; b < Defenders.size(); b++) {
+				Defenders[b].teritory = Defenders[b].teritory + avaivablet;
+				Agressors[i].teritory = Agressors[i].teritory - avaivablet;
+			}
+			Agressors[i].teritory = Agressors[i].teritory - (avaivablet * tmp);
+			if (Agressors[i].teritory < 0) {
+				std::cout << Agressors[i].name << " was annexed!" << std::endl << std::endl;
+			}
+		}
+		std::cout << "A war has ended!" << std::endl << std::endl;
+	}
+	if (AVic > DVic) {
+		int pceffects = AVic - DVic;
+		for (int i = 0; i < Defenders.size(); i++) {
+			//Ok so basically it will be, Attackers teritory scaled to Defenders victory overhead, divided between victors
+			int tmp = Agressors.size();
+			float avaivablet = Agressors[i].teritory / (100 * (pceffects / tmp));
+			for (int b = 0; b < Agressors.size(); b++) {
+				Agressors[b].teritory = Agressors[b].teritory + avaivablet;
+				Defenders[i].teritory = Defenders[i].teritory - avaivablet;
+			}
+			Defenders[i].teritory = Defenders[i].teritory - (avaivablet * tmp);
+			if (Defenders[i].teritory < 0) {
+				std::cout << Agressors[i].name << " was annexed!" << std::endl << std::endl;
+			}
+		}
+		std::cout << "A war has ended!" << std::endl << std::endl;
+	}
 }

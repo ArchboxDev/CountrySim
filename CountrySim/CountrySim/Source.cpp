@@ -99,6 +99,15 @@ int main() {
 		for (int v = 0; v < currentwars.size(); v++) {
 			currentwars[v].UpdateWarStats();
 		}
+		for each (Country v in countries)
+		{
+			if (v.teritory < 0) {
+				std::vector<Country>::iterator tmp = std::find(countries.begin(), countries.end(), v);
+				if (tmp != countries.end()) {
+					countries.erase(tmp);
+				}
+			}
+		}
 		year = year++;
 		for (int i = 0; i < countries.size(); i++) {
 			std::cout << countries[i].name << " is currently lead by " << countries[i].GetLeader() << " with the stability of " << countries[i].GetStats(0) << "! \nSize: " << countries[i].GetStats(1) << ". Current population: " << countries[i].GetStats(2) << std::endl << std::endl;
