@@ -1,11 +1,11 @@
 #include "Country.h"
 #include "War.h"
-#include <Windows.h>
 #include <time.h>
 #include <algorithm>
+#include <unistd.h>
 
 //Variables you can change
-int sleepl = 777; //Change this to change the sleep length
+int sleepl = 1; //Change this to change the sleep length
 int everXYearsElection = 4; //Change this to define every which year elections fire
 int stabilityThreshold = 50; //Change this to define the stability threshold until revolution
 int amountc;
@@ -22,7 +22,7 @@ int main() {
 				}
 			}
 		countries[i].InitOpnion(countries);
-		Sleep(sleepl);
+		sleep(sleepl);
 	}
 	int year = 0;
 	while (true) {
@@ -40,7 +40,7 @@ int main() {
 			for (int i = 0; i < countries.size(); i++) {
 				if (countries[i].elections = true) {
 					countries[i].Election();
-					Sleep(sleepl);
+					sleep(sleepl);
 				}
 			}
 		}
@@ -99,7 +99,7 @@ int main() {
 		for (int v = 0; v < currentwars.size(); v++) {
 			currentwars[v].UpdateWarStats();
 		}
-		for each (Country v in countries)
+		for (Country v : countries)
 		{
 			if (v.teritory < 0) {
 				std::vector<Country>::iterator tmp = std::find(countries.begin(), countries.end(), v);

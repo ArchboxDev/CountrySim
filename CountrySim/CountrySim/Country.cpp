@@ -1,35 +1,27 @@
 #include "Country.h"
 #include <stdlib.h>
 #include <time.h>
-#include <Windows.h>
 #include <vector>
 #include <string>
 #include <algorithm>
 #include <iostream>
+#include <unistd.h>
 std::string claws[5] = { "None", "Volunteer only", "Limited Conscription", "Full Conscription", "Every adult serves" };
 std::string arraye[15] = { "Save Nature","Industrialization","Curfews","Country-wide firewall","Invasion of Privacy act","Equal wages","Support of local buisnesses","Probation for every crime","Allow death sentences","Independence of foreign politics act","Schools teach all subjects","Travel ban","Religious oath of devotion" };
 
 Country::Country()
 {	
 	// The Country Constructor. Defines everything thats needed
-	srand( time(NULL) ); //Sets the Random seed to current time(in seconds from Jan 1, 1970
-	int RandIndex = rand() % 2;
-	switch (RandIndex) {
-	case 1:
-		elections = true;
-		break;
-	case 2:
-		elections = false;
-		break;
-	}
+	int RandIndex;
+	srand( time(NULL) ); //Sets the Random seed to current time(in seconds from Jan 1, 1970)
 	//Above defines if nation has elections or no
 	conscriptionlaws.insert (conscriptionlaws.end(), claws, claws+5); //avaivable conscription laws
-	RandIndex = rand() % size(conscriptionlaws);
+	RandIndex = rand() % conscriptionlaws.size();
 	conscriptionlaw = conscriptionlaws[RandIndex]; //Chooses conscription law
 	population = rand() % 1000000000 + 1000; //Sets population between 1 Billion and 1 Thousand
 	stability = 100; //Sets the stability
 	edicts.insert (edicts.end(), arraye, arraye+15 );
-	//These 2 string vectors (edicts and edictspassed) define the edicts system which currently doesn't work
+	//These 2 string vectors (edicts and edictspassed) define the edicts system which currently do work but bug a lot
 	passededicts.push_back ( "Emergency services" );
 	 RandIndex = rand() % 18; //Gets a random number
 	int RandIndex2 = rand() % 15; //Gets a random number
@@ -47,23 +39,28 @@ Country::Country()
 	ideology = ideologyc[RandIndex]; //Gets the ideology chosen
 	if (ideology == "Communist") { //If ideology is communist then set suffix to Union
 		suffix = " Union";
+		elections = ((rand() % 2) == 1) ? true : false;
 	}
 	else if (ideology == "Democratic" && teritory > 500000) { //If ideology is Democratic AND teritory 500 thousand then set suffix to Federation
 		suffix = " Federation";
+		elections = true;
 	}
 	else if (ideology == "Facist") { //If ideology is Facist then set suffix to Country
 		suffix = " Country";
+		elections = false; //is this correct??
 	}
 	else if (ideology == "Monarchic") { //If ideology is Monarchic then set suffix to Empire
 		suffix = " Empire";
+		elections = false;
 	}
 	else if (ideology == "Democratic") { //If ideology is Democratic and it didn't fit the Federation criteria then set suffix to Republic
 		suffix = " Republic";
+		elections = true;
 	}
 	name = prefix + suffix; //Create the name
 	SetMilitaryStats();
 	std::cout << "A new country with the name " << name << " has been created under the \nleadership of " << leader << "'s " << ideology << " regime!" << "\nHas elections: " << elections << std::endl << std::endl; //Message
-	Sleep(666);
+	sleep(1);
 }
 
 void Country::InitOpnion(std::vector<Country> list)
